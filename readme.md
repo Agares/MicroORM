@@ -1,3 +1,5 @@
+![scrunitizer](https://scrutinizer-ci.com/g/Agares/MicroORM/badges/quality-score.png?b=master)
+
 # What is "MicroORM"?
 A MicroORM is a concept that I have seen in .net circles (e.g. [Dapper](https://github.com/StackExchange/dapper-dot-net)).
 The goal is to have a library that maps the results of queries into objects, but still leaves the queries themselves to yourself.

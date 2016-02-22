@@ -1,0 +1,9 @@
+language: php
+php:
+  - '7.0'
+  - hhvm
+  - nightly
+
+install:
+  - composer selfupdate
+  - composer install
