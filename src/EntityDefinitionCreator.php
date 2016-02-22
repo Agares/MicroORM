@@ -6,12 +6,12 @@ namespace Agares\MicroORM;
 
 class EntityDefinitionCreator
 {
-    public function create($className) : array
+    public function create($className) : EntityDefinition
     {
         $entityReflection = new \ReflectionClass($className);
         $methods = $entityReflection->getMethods(\ReflectionMethod::IS_PUBLIC);
 
-        $entityFields = [];
+        $entityDefinition = new EntityDefinition($className);
         foreach($methods as $method) {
             $methodName = $method->getName();
 
@@ -19,11 +19,12 @@ class EntityDefinitionCreator
                 continue;
             }
 
-            $entityFields[lcfirst(substr($methodName, 3))] = [
-                'type' => $method->getReturnType() === NULL ? 'string' : (string)$method->getReturnType()
-            ];
+            $fieldName = lcfirst(substr($methodName, 3));
+            $fieldType = $method->getReturnType() === NULL ? 'string' : (string)$method->getReturnType();
+
+            $entityDefinition->addField(new EntityFieldDefinition($fieldName, $fieldType));
         }
 
-        return ['fields' => $entityFields, 'class_name' => $className];
+        return $entityDefinition;
     }
 }

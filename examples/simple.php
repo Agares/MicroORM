@@ -8,21 +8,23 @@ $pdo = new \PDO('sqlite::memory:');
 $databaseAdapter = new \Agares\MicroORM\PDODbAdapter($pdo);
 $entityMapper = new \Agares\MicroORM\EntityMapper();
 $queryAdapter = new \Agares\MicroORM\QueryAdapter($databaseAdapter, $entityMapper);
+$entityDefinitionCreator = new \Agares\MicroORM\EntityDefinitionCreator();
 
 // let's create some data!
-$queryAdapter->executeCommand('CREATE TABLE people (firstname TEXT, lastname TEXT)');
+$queryAdapter->executeCommand('CREATE TABLE people (firstname TEXT, lastname TEXT, age INT)');
 $people = [
-    ['Jeff', 'Lebowski'],
-    ['Bunny', 'Lebowski'],
-    ['The', 'Dude']
+    ['Jeff', 'Lebowski', 30],
+    ['Bunny', 'Lebowski', 25],
+    ['The', 'Dude', 50]
 ];
 
 foreach($people as $person) {
     $parameters = array(
         ':firstname' => $person[0],
-        ':lastname' => $person[1]
+        ':lastname' => $person[1],
+        ':age' => $person[2]
     );
-    $queryAdapter->executeCommand('INSERT INTO people VALUES(:firstname, :lastname)', $parameters);
+    $queryAdapter->executeCommand('INSERT INTO people VALUES(:firstname, :lastname, :age)', $parameters);
 }
 
 // time to start the real fun!
@@ -39,10 +41,23 @@ class Person
      */
     private $lastname;
 
-    public function __construct(string $firstname, string $lastname)
+    /**
+     * @var int
+     */
+    private $age;
+
+    /**
+     * This constructor will not be called by MicroORM.
+     *
+     * @param string $firstname
+     * @param string $lastname
+     * @param int $age
+     */
+    public function __construct(string $firstname, string $lastname, int $age)
     {
         $this->firstname = $firstname;
         $this->lastname = $lastname;
+        $this->age = $age;
     }
 
     public function getFirstname() : string
@@ -54,12 +69,18 @@ class Person
     {
         return $this->lastname;
     }
+
+    public function getAge() : int
+    {
+        return $this->age;
+    }
 }
 
 // And now we can query the DB
-$people = $queryAdapter->executeQuery('SELECT firstname, lastname FROM people', Person::class);
+// The types of properties will be inferred from getters
+$people = $queryAdapter->executeQuery('SELECT firstname, lastname, age FROM people', $entityDefinitionCreator->create(Person::class));
 
 foreach($people as $person) {
     /** @var Person $person */
-    printf('%s %s%s', $person->getFirstname(), $person->getLastname(), PHP_EOL);
+    printf('%s %s (age %d)%s', $person->getFirstname(), $person->getLastname(), $person->getAge(), PHP_EOL);
 }

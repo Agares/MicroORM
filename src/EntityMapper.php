@@ -2,14 +2,32 @@
 declare(strict_types=1);
 namespace Agares\MicroORM;
 
+use Agares\MicroORM\TypeMappers\IntegerTypeMapper;
+use Agares\MicroORM\TypeMappers\StringTypeMapper;
+
 class EntityMapper implements EntityMapperInterface
 {
-    public function map(array $fields, string $className)
+    /** @var TypeMapperInterface[] */
+    private $typeMappers = array();
+
+    public function __construct(array $typeMappers = null)
     {
-        $entityReflection = new \ReflectionClass($className);
+        if($typeMappers == null) {
+            $typeMappers = [
+                'string' => new StringTypeMapper(),
+                'int' => new IntegerTypeMapper()
+            ];
+        }
+
+        $this->typeMappers = $typeMappers;
+    }
+
+    public function map(array $fields, EntityDefinition $entityDefinition)
+    {
+        $entityReflection = new \ReflectionClass($entityDefinition->getClassName());
 
         $instance = $this->createEntityInstance($entityReflection);
-        $this->mapEntityFields($fields, $entityReflection, $instance);
+        $this->mapEntityFields($fields, $entityReflection, $instance, $entityDefinition->getFields());
 
         return $instance;
     }
@@ -27,12 +45,30 @@ class EntityMapper implements EntityMapperInterface
         return $instance;
     }
 
-    private function mapEntityFields(array $fields, \ReflectionClass $entityReflection, $entityInstance)
+    /**
+     * @param array $fields
+     * @param \ReflectionClass $entityReflection
+     * @param mixed $entityInstance
+     * @param EntityFieldDefinition[] $fieldsDefinition
+     *
+     * @throws UnknownFieldTypeException
+     */
+    private function mapEntityFields(array $fields, \ReflectionClass $entityReflection, $entityInstance, array $fieldsDefinition)
     {
         foreach ($fields as $field => $value) {
+            if(!isset($fieldsDefinition[$field])) {
+                continue;
+            }
+
+            $typeName = $fieldsDefinition[$field]->getTypeName();
+
+            if(!isset($this->typeMappers[$typeName])) {
+                throw new UnknownFieldTypeException($typeName);
+            }
+
             $fieldReflection = $entityReflection->getProperty($field);
             $fieldReflection->setAccessible(true);
-            $fieldReflection->setValue($entityInstance, $value);
+            $fieldReflection->setValue($entityInstance, $this->typeMappers[$typeName]->fromString($value));
             $fieldReflection->setAccessible(false);
         }
     }

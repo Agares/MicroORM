@@ -3,7 +3,9 @@ declare(strict_types = 1);
 
 namespace Agares\MicroORMTests;
 
+use Agares\MicroORM\EntityDefinition;
 use Agares\MicroORM\EntityDefinitionCreator;
+use Agares\MicroORM\EntityFieldDefinition;
 use Agares\MicroORMTests\Stubs\EntityWithSingleDateTime;
 use Agares\MicroORMTests\Stubs\EntityWithSingleInt;
 use Agares\MicroORMTests\Stubs\EntityWithSingleString;
@@ -22,27 +24,29 @@ class EntityDefinitionCreatorTest extends \PHPUnit_Framework_TestCase
     {
         $definition = $this->definitionCreator->create(EntityWithSingleString::class);
 
-        $this->assertEquals(['field' => ['type' => 'string']], $definition['fields']);
+        $expectedDefinition = new EntityDefinition(EntityWithSingleString::class);
+        $expectedDefinition->addField(new EntityFieldDefinition('field', 'string'));
+
+        $this->assertEquals($expectedDefinition, $definition);
     }
 
     public function testCanCreateADefinitionForIntegerField()
     {
         $definition = $this->definitionCreator->create(EntityWithSingleInt::class);
 
-        $this->assertEquals(['field' => ['type' => 'int']], $definition['fields']);
+        $expectedDefinition = new EntityDefinition(EntityWithSingleInt::class);
+        $expectedDefinition->addField(new EntityFieldDefinition('field', 'int'));
+
+        $this->assertEquals($expectedDefinition, $definition);
     }
 
     public function testCanCreateADefinitionForDateTimeField()
     {
         $definition = $this->definitionCreator->create(EntityWithSingleDateTime::class);
 
-        $this->assertEquals(['field' => ['type' => 'DateTime']], $definition['fields']);
-    }
+        $expectedDefinition = new EntityDefinition(EntityWithSingleDateTime::class);
+        $expectedDefinition->addField(new EntityFieldDefinition('field', 'DateTime'));
 
-    public function testSavesTheEntityName()
-    {
-        $definition = $this->definitionCreator->create(EntityWithSingleString::class);
-
-        $this->assertEquals(EntityWithSingleString::class, $definition['class_name']);
+        $this->assertEquals($expectedDefinition, $definition);
     }
 }

@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace Agares\MicroORMTests;
 
+use Agares\MicroORM\EntityDefinitionCreator;
 use Agares\MicroORM\EntityMapper;
 use Agares\MicroORM\QueryAdapter;
 use Agares\MicroORMTests\Stubs\EntityWithSingleString;
@@ -48,16 +49,18 @@ class QueryAdapterTest extends \PHPUnit_Framework_TestCase
 
     public function testCanMapResultOfAQuery()
     {
+        $entityDefinitionCreator = new EntityDefinitionCreator();
         /** @var EntityWithSingleString $result */
-        $result = $this->queryAdapter->executeQuery(StubDatabaseAdapter::ENTITY_WITH_SINGLE_FIELD, EntityWithSingleString::class);
+        $result = $this->queryAdapter->executeQuery(StubDatabaseAdapter::ENTITY_WITH_SINGLE_FIELD, $entityDefinitionCreator->create(EntityWithSingleString::class));
 
         $this->assertEquals('test', $result[0]->getField());
     }
 
     public function testPassesParametersToTheQuery()
     {
+        $entityDefinitionCreator = new EntityDefinitionCreator();
         $parameters = array(':field' => 2);
-        $this->queryAdapter->executeQuery(StubDatabaseAdapter::ENTITY_WITH_SINGLE_FIELD, EntityWithSingleString::class, $parameters);
+        $this->queryAdapter->executeQuery(StubDatabaseAdapter::ENTITY_WITH_SINGLE_FIELD, $entityDefinitionCreator->create(EntityWithSingleString::class), $parameters);
 
         $this->assertEquals($parameters, $this->dbAdapter->getLastQueryParameters());
     }

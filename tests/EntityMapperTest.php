@@ -3,10 +3,13 @@ declare(strict_types=1);
 
 namespace Agares\MicroORMTests;
 
+use Agares\MicroORM\EntityDefinitionCreator;
 use Agares\MicroORM\EntityMapper;
 use Agares\MicroORMTests\Stubs\EmptyEntity;
+use Agares\MicroORMTests\Stubs\EntityWithCustomType;
 use Agares\MicroORMTests\Stubs\EntityWithoutParameterlessConstructor;
 use Agares\MicroORMTests\Stubs\EntityWithParameterlessConstructor;
+use Agares\MicroORMTests\Stubs\EntityWithSingleInt;
 use Agares\MicroORMTests\Stubs\EntityWithSingleString;
 
 class EntityMapperTest extends \PHPUnit_Framework_TestCase
@@ -16,14 +19,20 @@ class EntityMapperTest extends \PHPUnit_Framework_TestCase
      */
     private $mapper;
 
+    /**
+     * @var EntityDefinitionCreator
+     */
+    private $definitionCreator;
+
     public function setUp()
     {
         $this->mapper = new EntityMapper();
+        $this->definitionCreator = new EntityDefinitionCreator();
     }
 
     public function testCanMapIntoTargetType()
     {
-        $result = $this->mapper->map(array(), EmptyEntity::class);
+        $result = $this->mapper->map(array(), $this->definitionCreator->create(EmptyEntity::class));
 
         $this->assertInstanceOf(EmptyEntity::class, $result);
     }
@@ -33,7 +42,7 @@ class EntityMapperTest extends \PHPUnit_Framework_TestCase
         $fieldValue = 'test';
 
         /** @var EntityWithSingleString $result */
-        $result = $this->mapper->map(array('field' => $fieldValue), EntityWithSingleString::class);
+        $result = $this->mapper->map(array('field' => $fieldValue), $this->definitionCreator->create(EntityWithSingleString::class));
 
         $this->assertEquals($fieldValue, $result->getField());
     }
@@ -43,7 +52,7 @@ class EntityMapperTest extends \PHPUnit_Framework_TestCase
         $fieldValue = 'test';
 
         /** @var EntityWithoutParameterlessConstructor $result */
-        $result = $this->mapper->map(array('field' => $fieldValue), EntityWithoutParameterlessConstructor::class);
+        $result = $this->mapper->map(array('field' => $fieldValue), $this->definitionCreator->create(EntityWithoutParameterlessConstructor::class));
 
         $this->assertEquals($fieldValue, $result->getField());
     }
@@ -51,8 +60,31 @@ class EntityMapperTest extends \PHPUnit_Framework_TestCase
     public function testParameterlessConstructorIsExecuted()
     {
         /** @var EntityWithParameterlessConstructor $result */
-        $result = $this->mapper->map(array(), EntityWithParameterlessConstructor::class);
+        $result = $this->mapper->map(array(), $this->definitionCreator->create(EntityWithParameterlessConstructor::class));
 
         $this->assertTrue($result->wasConstructorCalled());
+    }
+
+    public function testCanMapAnIntegerFromString()
+    {
+        /** @var EntityWithSingleInt $result */
+        $result = $this->mapper->map(array('field' => '123'), $this->definitionCreator->create(EntityWithSingleInt::class));
+
+        $this->assertEquals(123, $result->getField());
+    }
+
+    public function testIgnoresUnknownFields()
+    {
+        $result = $this->mapper->map(array('field' => '123'), $this->definitionCreator->create(EmptyEntity::class));
+
+        $this->assertEquals(new EmptyEntity(), $result);
+    }
+
+    /**
+     * @expectedException \Agares\MicroORM\UnknownFieldTypeException
+     */
+    public function testThrowsIfTypeOfFieldIsUnknown()
+    {
+        $this->mapper->map(array('field' => '123'), $this->definitionCreator->create(EntityWithCustomType::class));
     }
 }
