@@ -51,7 +51,7 @@ class QueryAdapterTest extends \PHPUnit_Framework_TestCase
         /** @var EntityWithSingleString $result */
         $result = $this->queryAdapter->executeQuery(StubDatabaseAdapter::ENTITY_WITH_SINGLE_FIELD, EntityWithSingleString::class);
 
-        $this->assertEquals('test', $result->getField());
+        $this->assertEquals('test', $result[0]->getField());
     }
 
     public function testPassesParametersToTheQuery()

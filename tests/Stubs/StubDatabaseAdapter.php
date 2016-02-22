@@ -37,7 +37,7 @@ class StubDatabaseAdapter implements DatabaseAdapterInterface
         switch($query)
         {
             case self::ENTITY_WITH_SINGLE_FIELD:
-                return ['field' => 'test'];
+                return [['field' => 'test']];
                 break;
             default:
                 throw new \RuntimeException(sprintf('Query %s is not implemented', $query));

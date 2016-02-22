@@ -29,8 +29,11 @@ class QueryAdapter
     public function executeQuery(string $query, string $entityClassName, array $parameters = array())
     {
         $queryResult = $this->dbAdapter->executeQuery($query, $parameters);
-        $entity = $this->entityMapper->map($queryResult, $entityClassName);
+        $entities = [];
+        foreach($queryResult as $resultItem) {
+            $entities[] = $this->entityMapper->map($resultItem, $entityClassName);
+        }
 
-        return $entity;
+        return $entities;
     }
 }
