@@ -1,0 +1,22 @@
+{
+    "name": "agares/microorm",
+    "require-dev": {
+        "phpunit/phpunit": "^5.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Agares\\MicroORM\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Agares\\MicroORMTests\\": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "agares",
+            "email": "me@agares.info"
+        }
+    ]
+}
