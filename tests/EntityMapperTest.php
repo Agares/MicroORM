@@ -9,7 +9,7 @@ use Agares\MicroORMTests\Stubs\EntityWithoutParameterlessConstructor;
 use Agares\MicroORMTests\Stubs\EntityWithParameterlessConstructor;
 use Agares\MicroORMTests\Stubs\EntityWithSingleString;
 
-class EntityMapperTests extends \PHPUnit_Framework_TestCase
+class EntityMapperTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var EntityMapper

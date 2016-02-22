@@ -2,19 +2,19 @@
 declare(strict_types=1);
 namespace Agares\MicroORM;
 
-class EntityMapper
+class EntityMapper implements EntityMapperInterface
 {
-    public function map(array $array, string $className)
+    public function map(array $fields, string $className)
     {
         $entityReflection = new \ReflectionClass($className);
 
         $instance = $this->createEntityInstance($entityReflection);
-        $this->mapEntityFields($array, $entityReflection, $instance);
+        $this->mapEntityFields($fields, $entityReflection, $instance);
 
         return $instance;
     }
 
-    public function createEntityInstance(\ReflectionClass $entityReflection)
+    private function createEntityInstance(\ReflectionClass $entityReflection)
     {
         $constructorReflection = $entityReflection->getConstructor();
 
@@ -27,7 +27,7 @@ class EntityMapper
         return $instance;
     }
 
-    public function mapEntityFields(array $fields, \ReflectionClass $entityReflection, $entityInstance)
+    private function mapEntityFields(array $fields, \ReflectionClass $entityReflection, $entityInstance)
     {
         foreach ($fields as $field => $value) {
             $fieldReflection = $entityReflection->getProperty($field);
