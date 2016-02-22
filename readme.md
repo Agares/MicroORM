@@ -1,4 +1,5 @@
 ![scrunitizer](https://scrutinizer-ci.com/g/Agares/MicroORM/badges/quality-score.png?b=master)
+![travis](https://travis-ci.org/Agares/MicroORM.svg?branch=master)
 
 # What is "MicroORM"?
 A MicroORM is a concept that I have seen in .net circles (e.g. [Dapper](https://github.com/StackExchange/dapper-dot-net)).
