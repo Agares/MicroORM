@@ -24,13 +24,13 @@ class StubDatabaseAdapter implements DatabaseAdapterInterface
      */
     private $lastQueryParameters = array();
 
-    public function executeCommand($command, array $parameters = array())
+    public function executeCommand(string $command, array $parameters = array())
     {
         $this->lastCommand = $command;
         $this->lastCommandParameters = $parameters;
     }
 
-    public function executeQuery($query, array $parameters = array()) : array
+    public function executeQuery(string $query, array $parameters = array()) : array
     {
         $this->lastQueryParameters = $parameters;
 
