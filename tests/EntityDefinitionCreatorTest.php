@@ -6,6 +6,7 @@ namespace Agares\MicroORMTests;
 use Agares\MicroORM\EntityDefinition;
 use Agares\MicroORM\EntityDefinitionCreator;
 use Agares\MicroORM\EntityFieldDefinition;
+use Agares\MicroORMTests\Stubs\EntityWithMethod;
 use Agares\MicroORMTests\Stubs\EntityWithSingleDateTime;
 use Agares\MicroORMTests\Stubs\EntityWithSingleInt;
 use Agares\MicroORMTests\Stubs\EntityWithSingleString;
@@ -46,6 +47,15 @@ class EntityDefinitionCreatorTest extends \PHPUnit_Framework_TestCase
 
         $expectedDefinition = new EntityDefinition(EntityWithSingleDateTime::class);
         $expectedDefinition->addField(new EntityFieldDefinition('field', 'DateTime'));
+
+        $this->assertEquals($expectedDefinition, $definition);
+    }
+
+    public function testMethodsThatNamesDontStartWithGetAreIgnored()
+    {
+        $definition = $this->definitionCreator->create(EntityWithMethod::class);
+
+        $expectedDefinition = new EntityDefinition(EntityWithMethod::class);
 
         $this->assertEquals($expectedDefinition, $definition);
     }

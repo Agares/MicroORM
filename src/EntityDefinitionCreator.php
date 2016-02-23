@@ -15,7 +15,7 @@ class EntityDefinitionCreator
         foreach($methods as $method) {
             $methodName = $method->getName();
 
-            if(!strpos($methodName, 'get') === 0) {
+            if(strpos($methodName, 'get') !== 0) {
                 continue;
             }
 
