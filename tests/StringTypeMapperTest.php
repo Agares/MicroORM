@@ -12,7 +12,7 @@ class StringTypeMapperTest extends \PHPUnit_Framework_TestCase
         $inputString = 'aaa';
 
         $typeMapper = new StringTypeMapper();
-        $result = $typeMapper->fromString($inputString);
+        $result = $typeMapper->fromString('a', array('a' => $inputString));
 
         $this->assertEquals($inputString, $result);
     }

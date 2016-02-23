@@ -6,10 +6,12 @@ namespace Agares\MicroORM;
 interface TypeMapperInterface
 {
     /**
-     * Convert $value to the type that this mapper maps to.
+     * Get value of entity field $fieldName, based on list of all $fields that were passed to mapper
      *
-     * @param string $value
+     * @param string $fieldName
+     * @param array $fields
+     *
      * @return mixed
      */
-    public function fromString(string $value);
+    public function fromString(string $fieldName, array $fields);
 }

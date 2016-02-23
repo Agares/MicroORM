@@ -10,8 +10,8 @@ class StringTypeMapper implements TypeMapperInterface
     /**
      * {@inheritdoc}
      */
-    public function fromString(string $value)
+    public function fromString(string $fieldName, array $fields)
     {
-        return $value;
+        return $fields[$fieldName];
     }
 }

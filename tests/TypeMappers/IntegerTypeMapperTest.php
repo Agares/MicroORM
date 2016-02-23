@@ -13,7 +13,7 @@ class IntegerTypeMapperTest extends \PHPUnit_Framework_TestCase
     public function testMapsInteger($input, $expected)
     {
         $typeMapper = new IntegerTypeMapper();
-        $result = $typeMapper->fromString($input);
+        $result = $typeMapper->fromString('a', array('a' => $input));
 
         $this->assertEquals($expected, $result);
     }

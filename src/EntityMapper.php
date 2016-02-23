@@ -55,20 +55,16 @@ class EntityMapper implements EntityMapperInterface
      */
     private function mapEntityFields(array $fields, \ReflectionClass $entityReflection, $entityInstance, array $fieldsDefinition)
     {
-        foreach ($fields as $field => $value) {
-            if(!isset($fieldsDefinition[$field])) {
-                continue;
-            }
-
-            $typeName = $fieldsDefinition[$field]->getTypeName();
+        foreach ($fieldsDefinition as $fieldName => $definition) {
+            $typeName = $definition->getTypeName();
 
             if(!isset($this->typeMappers[$typeName])) {
                 throw new UnknownFieldTypeException($typeName);
             }
 
-            $fieldReflection = $entityReflection->getProperty($field);
+            $fieldReflection = $entityReflection->getProperty($fieldName);
             $fieldReflection->setAccessible(true);
-            $fieldReflection->setValue($entityInstance, $this->typeMappers[$typeName]->fromString($value));
+            $fieldReflection->setValue($entityInstance, $this->typeMappers[$typeName]->fromString($fieldName, $fields));
             $fieldReflection->setAccessible(false);
         }
     }
