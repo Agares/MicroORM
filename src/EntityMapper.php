@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+declare(strict_types = 1);
 namespace Agares\MicroORM;
 
 use Agares\MicroORM\TypeMappers\IntegerTypeMapper;
@@ -12,7 +12,7 @@ class EntityMapper implements EntityMapperInterface
 
     public function __construct(array $typeMappers = null)
     {
-        if($typeMappers == null) {
+        if ($typeMappers == null) {
             $typeMappers = [
                 'string' => new StringTypeMapper(),
                 'int' => new IntegerTypeMapper()
@@ -58,7 +58,7 @@ class EntityMapper implements EntityMapperInterface
         foreach ($fieldsDefinition as $fieldName => $definition) {
             $typeName = $definition->getTypeName();
 
-            if(!isset($this->typeMappers[$typeName])) {
+            if (!isset($this->typeMappers[$typeName])) {
                 throw new UnknownFieldTypeException($typeName);
             }
 

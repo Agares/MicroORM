@@ -12,6 +12,6 @@ class IntegerTypeMapper implements TypeMapperInterface
      */
     public function fromString(string $fieldName, array $fields)
     {
-        return (int)$fields[$fieldName];
+        return (int) $fields[$fieldName];
     }
 }

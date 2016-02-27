@@ -12,15 +12,15 @@ class EntityDefinitionCreator
         $methods = $entityReflection->getMethods(\ReflectionMethod::IS_PUBLIC);
 
         $entityDefinition = new EntityDefinition($className);
-        foreach($methods as $method) {
+        foreach ($methods as $method) {
             $methodName = $method->getName();
 
-            if(strpos($methodName, 'get') !== 0) {
+            if (strpos($methodName, 'get') !== 0) {
                 continue;
             }
 
             $fieldName = lcfirst(substr($methodName, 3));
-            $fieldType = $method->getReturnType() === NULL ? 'string' : (string)$method->getReturnType();
+            $fieldType = $method->getReturnType() === NULL ? 'string' : (string) $method->getReturnType();
 
             $entityDefinition->addField(new EntityFieldDefinition($fieldName, $fieldType));
         }

@@ -18,7 +18,7 @@ $people = [
     ['The', 'Dude', 50]
 ];
 
-foreach($people as $person) {
+foreach ($people as $person) {
     $parameters = array(
         ':firstname' => $person[0],
         ':lastname' => $person[1],
@@ -80,7 +80,7 @@ class Person
 // The types of properties will be inferred from getters
 $people = $queryAdapter->executeQuery('SELECT firstname, lastname, age FROM people', $entityDefinitionCreator->create(Person::class));
 
-foreach($people as $person) {
+foreach ($people as $person) {
     /** @var Person $person */
     printf('%s %s (age %d)%s', $person->getFirstname(), $person->getLastname(), $person->getAge(), PHP_EOL);
 }
