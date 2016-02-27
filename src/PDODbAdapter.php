@@ -36,7 +36,7 @@ class PDODbAdapter implements DatabaseAdapterInterface
     {
         $statement = $this->pdo->prepare($query);
 
-        foreach($parameters as $name => $value) {
+        foreach ($parameters as $name => $value) {
             $statement->bindValue($name, $value);
         }
 

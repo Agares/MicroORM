@@ -17,7 +17,7 @@ $transactions = [
     ['Lousy Coffee', '10', 'CZK']
 ];
 
-foreach($transactions as $transaction) {
+foreach ($transactions as $transaction) {
     $parameters = array(
         ':product' => $transaction[0],
         ':price' => $transaction[1],
@@ -83,7 +83,7 @@ class CurrencyTypeMapper implements \Agares\MicroORM\TypeMapperInterface
 {
     public function fromString(string $fieldName, array $fields)
     {
-        return new Currency($fields[$fieldName], $fields[$fieldName . '_currency']);
+        return new Currency($fields[$fieldName], $fields[$fieldName.'_currency']);
     }
 }
 
@@ -97,7 +97,7 @@ $typeMappers = [
 $entityMapper = new \Agares\MicroORM\EntityMapper($typeMappers);
 $queryAdapter = new \Agares\MicroORM\QueryAdapter($databaseAdapter, $entityMapper);
 $transactions = $queryAdapter->executeQuery('SELECT product, price, price_currency FROM transactions', $entityDefinitionCreator->create(Transaction::class));
-foreach($transactions as $transaction) {
+foreach ($transactions as $transaction) {
     /** @var Transaction $transaction */
-    printf('%s (%s)%s', $transaction->getProduct(), (string)$transaction->getPrice(), PHP_EOL);
+    printf('%s (%s)%s', $transaction->getProduct(), (string) $transaction->getPrice(), PHP_EOL);
 }
