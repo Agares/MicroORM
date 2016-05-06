@@ -3,10 +3,9 @@ declare(strict_types = 1);
 
 namespace Agares\MicroORM;
 
-
-class EntityDefinitionCreator
+class EntityDefinitionCreator implements EntityDefinitionCreatorInterface
 {
-    public function create($className) : EntityDefinition
+    public function create(string $className) : EntityDefinition
     {
         $entityReflection = new \ReflectionClass($className);
         $methods = $entityReflection->getMethods(\ReflectionMethod::IS_PUBLIC);
