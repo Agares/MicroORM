@@ -6,7 +6,7 @@ require_once __DIR__.'/../vendor/autoload.php';
 // initialisation
 $pdo = new \PDO('sqlite::memory:');
 $databaseAdapter = new \Agares\MicroORM\PDODbAdapter($pdo);
-$entityDefinitionCreator = new \Agares\MicroORM\EntityDefinitionCreator();
+$entityDefinitionCreator = new \Agares\MicroORM\EntityDefinitionCreator(new \Agares\MicroORM\FieldNameMappers\StripGet());
 
 // create a test table
 $databaseAdapter->executeCommand('CREATE TABLE transactions (product TEXT, price TEXT, price_currency TEXT)');

@@ -6,6 +6,7 @@ namespace Agares\MicroORMTests;
 use Agares\MicroORM\EntityDefinition;
 use Agares\MicroORM\EntityDefinitionCreator;
 use Agares\MicroORM\EntityFieldDefinition;
+use Agares\MicroORM\FieldNameMappers\ToUnderscores;
 use Agares\MicroORMTests\Stubs\EntityWithMethod;
 use Agares\MicroORMTests\Stubs\EntityWithSingleDateTime;
 use Agares\MicroORMTests\Stubs\EntityWithSingleInt;
@@ -18,7 +19,7 @@ class EntityDefinitionCreatorTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->definitionCreator = new EntityDefinitionCreator();
+        $this->definitionCreator = new EntityDefinitionCreator(new ToUnderscores());
     }
 
     public function testCanCreateADefinitionFromGetters()

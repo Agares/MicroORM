@@ -5,6 +5,7 @@ namespace Agares\MicroORMTests;
 
 use Agares\MicroORM\EntityDefinitionCreator;
 use Agares\MicroORM\EntityMapper;
+use Agares\MicroORM\FieldNameMappers\StripGet;
 use Agares\MicroORMTests\Stubs\EmptyEntity;
 use Agares\MicroORMTests\Stubs\EntityWithCustomType;
 use Agares\MicroORMTests\Stubs\EntityWithoutParameterlessConstructor;
@@ -27,7 +28,7 @@ class EntityMapperTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->mapper = new EntityMapper();
-        $this->definitionCreator = new EntityDefinitionCreator();
+        $this->definitionCreator = new EntityDefinitionCreator(new StripGet());
     }
 
     public function testCanMapIntoTargetType()

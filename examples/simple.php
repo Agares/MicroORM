@@ -8,7 +8,7 @@ $pdo = new \PDO('sqlite::memory:');
 $databaseAdapter = new \Agares\MicroORM\PDODbAdapter($pdo);
 $entityMapper = new \Agares\MicroORM\EntityMapper();
 $queryAdapter = new \Agares\MicroORM\QueryAdapter($databaseAdapter, $entityMapper);
-$entityDefinitionCreator = new \Agares\MicroORM\EntityDefinitionCreator();
+$entityDefinitionCreator = new \Agares\MicroORM\EntityDefinitionCreator(new \Agares\MicroORM\FieldNameMappers\ToUnderscores());
 
 // let's create some data!
 $queryAdapter->executeCommand('CREATE TABLE people (firstname TEXT, lastname TEXT, age INT)');

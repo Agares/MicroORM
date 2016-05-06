@@ -5,6 +5,7 @@ namespace Agares\MicroORMTests;
 
 use Agares\MicroORM\EntityDefinitionCreator;
 use Agares\MicroORM\EntityMapper;
+use Agares\MicroORM\FieldNameMappers\ToUnderscores;
 use Agares\MicroORM\QueryAdapter;
 use Agares\MicroORMTests\Stubs\EntityWithSingleString;
 use Agares\MicroORMTests\Stubs\StubDatabaseAdapter;
@@ -49,7 +50,7 @@ class QueryAdapterTest extends \PHPUnit_Framework_TestCase
 
     public function testCanMapResultOfAQuery()
     {
-        $entityDefinitionCreator = new EntityDefinitionCreator();
+        $entityDefinitionCreator = new EntityDefinitionCreator(new ToUnderscores());
         /** @var EntityWithSingleString $result */
         $result = $this->queryAdapter->executeQuery(StubDatabaseAdapter::ENTITY_WITH_SINGLE_FIELD, $entityDefinitionCreator->create(EntityWithSingleString::class));
 
@@ -58,7 +59,7 @@ class QueryAdapterTest extends \PHPUnit_Framework_TestCase
 
     public function testPassesParametersToTheQuery()
     {
-        $entityDefinitionCreator = new EntityDefinitionCreator();
+        $entityDefinitionCreator = new EntityDefinitionCreator(new ToUnderscores());
         $parameters = array(':field' => 2);
         $this->queryAdapter->executeQuery(StubDatabaseAdapter::ENTITY_WITH_SINGLE_FIELD, $entityDefinitionCreator->create(EntityWithSingleString::class), $parameters);
 
