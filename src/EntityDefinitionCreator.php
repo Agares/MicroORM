@@ -31,7 +31,7 @@ class EntityDefinitionCreator implements EntityDefinitionCreatorInterface
             $fieldName = $this->fieldNameMapper->map($methodName);
             $fieldType = $method->getReturnType() === NULL ? 'string' : (string) $method->getReturnType();
 
-            $entityDefinition->addField(new EntityFieldDefinition($fieldName, $fieldType));
+            $entityDefinition->addField(new EntityFieldDefinition(lcfirst(substr($methodName, 3)), $fieldName, $fieldType));
         }
 
         return $entityDefinition;

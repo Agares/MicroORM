@@ -14,11 +14,16 @@ class EntityFieldDefinition
      * @var string
      */
     private $name;
+    /**
+     * @var string
+     */
+    private $fieldName;
 
-    public function __construct(string $name, string $typeName)
+    public function __construct(string $fieldName, string $name, string $typeName)
     {
         $this->name = $name;
         $this->typeName = $typeName;
+        $this->fieldName = $fieldName;
     }
 
     public function getTypeName() : string
@@ -29,5 +34,10 @@ class EntityFieldDefinition
     public function getName() : string
     {
         return $this->name;
+    }
+
+    public function getFieldName() : string
+    {
+        return $this->fieldName;
     }
 }

@@ -27,7 +27,7 @@ class EntityDefinitionCreatorTest extends \PHPUnit_Framework_TestCase
         $definition = $this->definitionCreator->create(EntityWithSingleString::class);
 
         $expectedDefinition = new EntityDefinition(EntityWithSingleString::class);
-        $expectedDefinition->addField(new EntityFieldDefinition('field', 'string'));
+        $expectedDefinition->addField(new EntityFieldDefinition('field', 'field', 'string'));
 
         $this->assertEquals($expectedDefinition, $definition);
     }
@@ -37,7 +37,7 @@ class EntityDefinitionCreatorTest extends \PHPUnit_Framework_TestCase
         $definition = $this->definitionCreator->create(EntityWithSingleInt::class);
 
         $expectedDefinition = new EntityDefinition(EntityWithSingleInt::class);
-        $expectedDefinition->addField(new EntityFieldDefinition('field', 'int'));
+        $expectedDefinition->addField(new EntityFieldDefinition('field', 'field', 'int'));
 
         $this->assertEquals($expectedDefinition, $definition);
     }
@@ -47,7 +47,7 @@ class EntityDefinitionCreatorTest extends \PHPUnit_Framework_TestCase
         $definition = $this->definitionCreator->create(EntityWithSingleDateTime::class);
 
         $expectedDefinition = new EntityDefinition(EntityWithSingleDateTime::class);
-        $expectedDefinition->addField(new EntityFieldDefinition('field', 'DateTime'));
+        $expectedDefinition->addField(new EntityFieldDefinition('field', 'field', 'DateTime'));
 
         $this->assertEquals($expectedDefinition, $definition);
     }

@@ -6,7 +6,9 @@ namespace Agares\MicroORMTests;
 use Agares\MicroORM\EntityDefinitionCreator;
 use Agares\MicroORM\EntityMapper;
 use Agares\MicroORM\FieldNameMappers\StripGet;
+use Agares\MicroORM\FieldNameMappers\ToUnderscores;
 use Agares\MicroORMTests\Stubs\EmptyEntity;
+use Agares\MicroORMTests\Stubs\EntityWithComplexFieldName;
 use Agares\MicroORMTests\Stubs\EntityWithCustomType;
 use Agares\MicroORMTests\Stubs\EntityWithoutParameterlessConstructor;
 use Agares\MicroORMTests\Stubs\EntityWithParameterlessConstructor;
@@ -28,7 +30,7 @@ class EntityMapperTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->mapper = new EntityMapper();
-        $this->definitionCreator = new EntityDefinitionCreator(new StripGet());
+        $this->definitionCreator = new EntityDefinitionCreator(new ToUnderscores());
     }
 
     public function testCanMapIntoTargetType()
@@ -87,5 +89,10 @@ class EntityMapperTest extends \PHPUnit_Framework_TestCase
     public function testThrowsIfTypeOfFieldIsUnknown()
     {
         $this->mapper->map(array('field' => '123'), $this->definitionCreator->create(EntityWithCustomType::class));
+    }
+
+    public function testeMapsComplexGetterOntoFieldName()
+    {
+        $this->mapper->map(['some_complex_field' => 'aaa'], $this->definitionCreator->create(EntityWithComplexFieldName::class));
     }
 }

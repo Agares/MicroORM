@@ -62,7 +62,7 @@ class EntityMapper implements EntityMapperInterface
                 throw new UnknownFieldTypeException($typeName);
             }
 
-            $fieldReflection = $entityReflection->getProperty($fieldName);
+            $fieldReflection = $entityReflection->getProperty($definition->getFieldName());
             $fieldReflection->setAccessible(true);
             $fieldReflection->setValue($entityInstance, $this->typeMappers[$typeName]->fromString($fieldName, $fields));
             $fieldReflection->setAccessible(false);
