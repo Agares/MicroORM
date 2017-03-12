@@ -28,7 +28,7 @@ foreach ($transactions as $transaction) {
 }
 
 // define a value object
-class Currency
+class Money
 {
     private $amount = '0';
     private $currency = 'XXX';
@@ -61,7 +61,7 @@ class Transaction
     private $product;
     private $price;
 
-    public function __construct(string $product, string $price)
+    public function __construct(string $product, \Money $price)
     {
         $this->product = $product;
         $this->price = $price;
@@ -72,18 +72,18 @@ class Transaction
         return $this->product;
     }
 
-    public function getPrice() : \Currency
+    public function getPrice() : \Money
     {
         return $this->price;
     }
 }
 
 // we need a custom TypeMapper for our value object
-class CurrencyTypeMapper implements \Agares\MicroORM\TypeMapperInterface
+class MoneyTypeMapper implements \Agares\MicroORM\TypeMapperInterface
 {
     public function fromString(string $fieldName, array $fields)
     {
-        return new Currency($fields[$fieldName], $fields[$fieldName.'_currency']);
+        return new Money($fields[$fieldName], $fields[$fieldName.'_currency']);
     }
 }
 
@@ -91,7 +91,7 @@ class CurrencyTypeMapper implements \Agares\MicroORM\TypeMapperInterface
 $typeMappers = [
     'string' => new \Agares\MicroORM\TypeMappers\StringTypeMapper(),
     'int' => new \Agares\MicroORM\TypeMappers\IntegerTypeMapper(),
-    'Currency' => new CurrencyTypeMapper()
+    Money::class => new MoneyTypeMapper()
 ];
 
 $entityMapper = new \Agares\MicroORM\EntityMapper($typeMappers);
