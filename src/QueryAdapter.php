@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Agares\MicroORM;
 
-class QueryAdapter
+final class QueryAdapter
 {
     /**
      * @var DatabaseAdapterInterface

@@ -5,7 +5,7 @@ namespace Agares\MicroORM;
 use Agares\MicroORM\TypeMappers\IntegerTypeMapper;
 use Agares\MicroORM\TypeMappers\StringTypeMapper;
 
-class EntityMapper implements EntityMapperInterface
+final class EntityMapper implements EntityMapperInterface
 {
     /** @var TypeMapperInterface[] */
     private $typeMappers = array();

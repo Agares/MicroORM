@@ -3,8 +3,7 @@ declare(strict_types = 1);
 
 namespace Agares\MicroORM;
 
-
-class EntityDefinition
+final class EntityDefinition
 {
     /**
      * @var EntityFieldDefinition[]

@@ -5,7 +5,7 @@ namespace Agares\MicroORM\TypeMappers;
 
 use Agares\MicroORM\TypeMapperInterface;
 
-class IntegerTypeMapper implements TypeMapperInterface
+final class IntegerTypeMapper implements TypeMapperInterface
 {
     /**
      * {@inheritdoc}

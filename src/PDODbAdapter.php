@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Agares\MicroORM;
 
-class PDODbAdapter implements DatabaseAdapterInterface
+final class PDODbAdapter implements DatabaseAdapterInterface
 {
     /** @var \PDO */
     private $pdo;

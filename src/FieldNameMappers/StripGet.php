@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Agares\MicroORM\FieldNameMappers;
 
 use Agares\MicroORM\FieldNameMapperInterface;
 
-class StripGet implements FieldNameMapperInterface
+final class StripGet implements FieldNameMapperInterface
 {
 	public function map(string $getterName) : string
 	{
